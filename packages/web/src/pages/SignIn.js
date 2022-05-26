@@ -1,0 +1,15 @@
+export default function SignIn() {
+  return(
+    <form action="/authenticate" method="POST">
+    <fieldset>
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" inputmode="email" autocomplete="username"/>
+    </fieldset>
+    <fieldset>
+      <label for="password">Senha</label>
+      <input id="password" name="password" type="password" inputmode="password" autocomplete="current-password"/>
+    </fieldset>
+    <button type="submit">Entrar</button>
+  </form>
+  );
+}
