@@ -1,6 +1,8 @@
 import express from "express";
-import { ApolloServer, gql } from "apollo-server-express";
+import { ApolloServer } from "apollo-server-express";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
+import typeDefs from "./graphql/typeDefs";
+import resolvers from "./graphql/resolvers";
 
 const app = express();
 
@@ -9,28 +11,8 @@ async function startServer() {
     plugins: [
       ApolloServerPluginLandingPageGraphQLPlayground(),
     ],
-    typeDefs: gql `
-      type Client {
-        id: ID!
-        name: String!
-      }
-
-      type Demand {
-        id: ID!
-        name: String!
-        client: Client!
-        deadline: String
-      }
-
-      type Query {
-        demands: [Demand]!
-      }
-    `,
-    resolvers: {
-      Query: {
-        demands: () => [],
-      },
-    }
+    typeDefs,
+    resolvers
   });
   await server.start();
   server.applyMiddleware({
@@ -38,26 +20,10 @@ async function startServer() {
     cors: {
       origin: "http://localhost:3000",
     },
+    bodyParserConfig: true,
   });
 };
 startServer(app);
-
-/*server.get("/status", (_,response) => {
-  response.send({
-    status: "Okay",
-  });
-});
-
-const enableCors = cors({origin: "http://localhost:3000"});
-
-server
-  .options("/authenticate", enableCors)
-  .post("/authenticate", enableCors, express.json(), (request,response) => {
-      console.log("Email: ",request.body.email,"Senha: ",request.body.password);
-      response.send({
-        Okay: true,
-      });
-  });*/
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT): 8000;
 const HOSTNAME = process.env.HOSTNAME || "127.0.0.1" ;
