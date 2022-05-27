@@ -17,8 +17,8 @@ export default function SignIn() {
       }),
     })
     .then((response) => response.json())
-    .then(() => {
-      console.log("Success!");
+    .then((data) => {
+      console.log("Success! ", data);
     });
   };
 
